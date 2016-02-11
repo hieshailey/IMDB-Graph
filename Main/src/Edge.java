@@ -30,20 +30,25 @@ public class Edge implements Comparable<Edge> {
      */
     public Edge(Vertex one, Vertex two){
         this(one, two, 1);
-    }
+    }   // calls the constructor with 3 params
 
+//    Conditional Operator ( ? : )
+//    Conditional operator is also known as the ternary operator. Uses a "?" and a colon ":"
+//    This operator consists of three operands and is used to evaluate Boolean expressions.
+//    The goal of the operator is to decide which value should be assigned to the variable.
+//    Example: the operator is written as:
+//    variable x = (expression) ? value if true : value if false
     /**
      *
      * @param one The first vertex in the Edge
      * @param two The second vertex of the Edge
      * @param weight The weight of this Edge
      */
-    public Edge(Vertex one, Vertex two, int weight){
-        this.one = (one.getLabel().compareTo(two.getLabel()) <= 0) ? one : two;
+    public Edge(Vertex one, Vertex two, int weight){                     // net this out. what is happening here?
+        this.one = (one.getLabel().compareTo(two.getLabel()) <= 0) ? one : two;     // see above note on "?" and ":"
         this.two = (this.one == one) ? two : one;
         this.weight = weight;
     }
-
 
     /**
      *
@@ -122,6 +127,8 @@ public class Edge implements Comparable<Edge> {
     public int hashCode(){
         return (one.getLabel() + two.getLabel()).hashCode();
     }
+
+
 
     /**
      *

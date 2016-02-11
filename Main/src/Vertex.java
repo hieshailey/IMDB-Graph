@@ -15,8 +15,9 @@ import java.util.ArrayList;
  */
 public class Vertex {
 
-    private ArrayList<Edge> neighborhood;
     private String label;
+    private ArrayList<Edge> neighborhood;
+
 
     /**
      *

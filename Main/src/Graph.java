@@ -17,8 +17,9 @@ import java.util.*;
  */
 public class Graph {
 
-    private HashMap<String, Vertex> vertices;
-    private HashMap<Integer, Edge> edges;
+    private HashMap<String, Vertex> vertices;   // remember, Key-Value pair
+    private HashMap<Integer, Edge> edges;       // remember, Key-Value pair
+                                                // so what's up with the Integer?
 
     public Graph(){
         this.vertices = new HashMap<String, Vertex>();
@@ -36,14 +37,14 @@ public class Graph {
         this.vertices = new HashMap<String, Vertex>();
         this.edges = new HashMap<Integer, Edge>();
 
-        for(Vertex v: vertices){
-            this.vertices.put(v.getLabel(), v);
+        for(Vertex v: vertices){                // for each Vertex element in input
+            this.vertices.put(v.getLabel(), v); // use the label as the Key and the whole Vertex as the Value
         }
 
     }
 
     /**
-     * This method adds am edge between Vertices one and two
+     * This method adds an edge between Vertices one and two
      * of weight 1, if no Edge between these Vertices already
      * exists in the Graph.
      *
@@ -67,13 +68,13 @@ public class Graph {
      * @return true iff no Edge already exists in the Graph
      */
     public boolean addEdge(Vertex one, Vertex two, int weight){
-        if(one.equals(two)){
+        if(one.equals(two)){                // compares objects
             return false;
         }
 
         //ensures the Edge is not in the Graph
-        Edge e = new Edge(one, two, weight);
-        if(edges.containsKey(e.hashCode())){
+        Edge e = new Edge(one, two, weight);        // hashCode will generate the unique integer that corresponds to
+        if(edges.containsKey(e.hashCode())){        // this label combo
             return false;
         }
 
@@ -82,7 +83,7 @@ public class Graph {
             return false;
         }
 
-        edges.put(e.hashCode(), e);
+        edges.put(e.hashCode(), e);                 // uses the same hashCode as the key to this Map
         one.addNeighbor(e);
         two.addNeighbor(e);
         return true;
