@@ -1,6 +1,9 @@
 /**
  * Created by dan.forrestal on 2/10/16.
  */
+
+import java.io.BufferedReader;
+
 /**
  *
  * @author Michael Levet
@@ -10,8 +13,11 @@ public class DemoGraph
     {
         public static void main(String[] args)
         {
-            Graph graph = new Graph();
 
+            //Get the buffered reader for the text file
+            BufferedReader br = FileManager.getInstance().getFile("/IMDB MPAA 21861 Movies sample.txt");
+
+            Graph graph = new Graph();
 
             //initialize some vertices and add them to the graph
             Vertex[] vertices = new Vertex[5];              // used to quickly make 5 nodes
