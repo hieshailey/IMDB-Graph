@@ -3,82 +3,70 @@
  */
 
 import java.io.BufferedReader;
+import java.util.HashSet;
 
 /**
  *
  * @author Michael Levet
  * @date June 09, 2015
  */
-public class DemoGraph
-    {
-        public static void main(String[] args)
-        {
+public class DemoGraph {
 
-            //Get the buffered reader for the text file
-            BufferedReader br = FileManager.getInstance().getFile("/IMDB MPAA 21861 Movies sample.txt");
 
-            Graph graph = new Graph();
 
-            //initialize some vertices and add them to the graph
-            Vertex[] vertices = new Vertex[5];              // used to quickly make 5 nodes
-            for(int i = 0; i < vertices.length; i++){
-                vertices[i] = new Vertex("" + i);           // make a label from the counter
-                graph.addVertex(vertices[i], true);
-            }
+    public static void main(String[] args) {
 
-            //illustrate the fact that duplicate edges aren't added
-            for(int i = 0; i < vertices.length - 1; i++){
-                for(int j = i + 1; j < vertices.length; j++){
-                    graph.addEdge(vertices[i], vertices[j]);
-                    graph.addEdge(vertices[i], vertices[j]);
-                    graph.addEdge(vertices[j], vertices[i]);
-                }
-            }
+        //Get the buffered reader for the text file
+        BufferedReader br = FileManager.getInstance().getFile("real.txt");
 
-            //display the initial setup- all vertices adjacent to each other
-            for(int i = 0; i < vertices.length; i++){
-                System.out.println(vertices[i]);
+        Graph graph = new Graph();
 
-                for(int j = 0; j < vertices[i].getNeighborCount(); j++){
-                    System.out.println(vertices[i].getNeighbor(j));
-                }
+        //populate the graph
+        try {
 
-                System.out.println();
-            }
+            String line = br.readLine();
+            while (line != null) {
 
-            //overwrite Vertex 3
-            graph.addVertex(new Vertex("3"), true);
-            for(int i = 0; i < vertices.length; i++){
-                System.out.println(vertices[i]);
+                String[] linebits = line.split(", ");
+                HashSet<String> actors = new HashSet<>();
 
-                for(int j = 0; j < vertices[i].getNeighborCount(); j++){
-                    System.out.println(vertices[i].getNeighbor(j));
+                //start at 1 because the first element is the movie title
+                for (int i = 1; i < linebits.length; i++) {
+
+                    //make sure all the actors have vertices in the graph
+                    Vertex vertex = new Vertex(linebits[i]);
+                    //addVertex method ensures vertex isnt overwritten
+                    graph.addVertex(vertex, false);
+
+                    //add the actor to a hashset (edges between all actors in a movie need to be created)
+                    actors.add(linebits[i]);
+
                 }
 
-                System.out.println();
+                //add edges
+                for (String str1: actors) {
+                    Vertex actor1 = graph.getVertex(str1);
+
+                    for (String str2: actors) {
+                        //make sure not same actor
+                        if (!str1.equals(str2)) {
+
+                            Vertex actor2 = graph.getVertex(str2);
+
+                            //this method already makes sure an edge doesnt exist, so dont have to check for it
+                            graph.addEdge(actor1, actor2, 1);
+
+                        }
+                    }
+                }
+
+                line = br.readLine();
+
             }
 
-
-            System.out.println("Vertex 5: " + graph.getVertex("5")); //null
-            System.out.println("Vertex 3: " + graph.getVertex("3")); //Vertex 3
-
-            //true
-            System.out.println("Graph Contains {1, 2}: " +
-                    graph.containsEdge(new Edge(graph.getVertex("1"), graph.getVertex("2"))));
-
-            //true
-            System.out.println(graph.removeEdge(new Edge(graph.getVertex("1"), graph.getVertex("2"))));
-
-            //false
-            System.out.println("Graph Contains {1, 2}: " + graph.containsEdge(new Edge(graph.getVertex("1"), graph.getVertex("2"))));
-
-            //false
-            System.out.println("Graph Contains {2, 3} " + graph.containsEdge(new Edge(graph.getVertex("2"), graph.getVertex("3"))));
-
-            System.out.println(graph.containsVertex(new Vertex("1"))); //true
-            System.out.println(graph.containsVertex(new Vertex("6"))); //false
-            System.out.println(graph.removeVertex("2")); //Vertex 2
-            System.out.println(graph.vertexKeys()); //[3, 1, 0, 4]
-
+        } catch (Exception e){
+            e.printStackTrace();
         }
+
     }
+}
