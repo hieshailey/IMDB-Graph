@@ -24,10 +24,12 @@ public class DemoGraph {
         //populate the graph
         try {
 
+            int counter = 0;
+
             String line = br.readLine();
             while (line != null) {
 
-                String[] linebits = line.split(", ");
+                String[] linebits = line.split("/");
                 HashSet<String> actors = new HashSet<>();
 
                 //start at 1 because the first element is the movie title
@@ -59,6 +61,11 @@ public class DemoGraph {
                         }
                     }
                 }
+
+                counter ++;
+
+                if (counter % 1000 == 0)
+                    System.out.println(counter);
 
                 line = br.readLine();
 
