@@ -25,12 +25,11 @@ public class DemoGraph {
         try {
 
             int counter = 0;
-
             String line = br.readLine();
+
             while (line != null) {
 
                 String[] linebits = line.split("/");
-                HashSet<String> actors = new HashSet<>();
 
                 //start at 1 because the first element is the movie title
                 for (int i = 1; i < linebits.length; i++) {
@@ -40,23 +39,20 @@ public class DemoGraph {
                     //addVertex method ensures vertex isnt overwritten
                     graph.addVertex(vertex, false);
 
-                    //add the actor to a hashset (edges between all actors in a movie need to be created)
-                    actors.add(linebits[i]);
-
                 }
 
                 //add edges
-                for (String str1: actors) {
-                    Vertex actor1 = graph.getVertex(str1);
+                for (int i = 1; i < linebits.length; i++) {
+                    Vertex actor1 = graph.getVertex(linebits[i]);
 
-                    for (String str2: actors) {
+                    for (int j = 1; j < linebits.length; j++) {
                         //make sure not same actor
-                        if (!str1.equals(str2)) {
+                        if (!linebits[i].equals(linebits[j])) {
 
-                            Vertex actor2 = graph.getVertex(str2);
+                            Vertex actor2 = graph.getVertex(linebits[j]);
 
                             //this method already makes sure an edge doesnt exist, so dont have to check for it
-                            graph.addEdge(actor1, actor2, 1);
+                            graph.addEdge(actor1, actor2);
 
                         }
                     }
