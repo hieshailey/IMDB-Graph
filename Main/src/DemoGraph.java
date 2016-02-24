@@ -3,6 +3,7 @@
  */
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +17,12 @@ public class DemoGraph
         {
 
             //Get the buffered reader for the text file
-            BufferedReader br = FileManager.getInstance().getFile("/IMDB MPAA 21861 Movies sample.txt");
+
+            try {
+                FileManager.getInstance().readLines("/sample.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             Graph graph = new Graph();
 
