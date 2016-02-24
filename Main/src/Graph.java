@@ -192,4 +192,8 @@ public class Graph {
         return new HashSet<Edge>(this.edges.values());
     }
 
+    public Set<Vertex> getVertices(){
+        return new HashSet<Vertex>(this.vertices.values());
+    }
+
 }
