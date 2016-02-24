@@ -19,7 +19,7 @@ public class FileManager {
     public BufferedReader getFile(String path){
         try {
 
-            File file = new File(path);
+            File file = new File(getClass().getResource(path).getPath());
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
 
