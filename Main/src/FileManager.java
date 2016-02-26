@@ -50,7 +50,7 @@ public class FileManager {
             String[] actorList = line.split("[/]+");
             line = br.readLine();
 
-            HashSet<String> actors = new HashSet<>();
+            HashSet<String> actors = new HashSet<String>();
             for(int i = 1; i < actorList.length; i++)
             {
                 movies.addVertex(new Vertex(actorList[i]), false);

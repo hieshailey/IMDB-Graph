@@ -24,11 +24,5 @@ public class DemoGraph
                 e.printStackTrace();
             }
 
-            Graph graph = new Graph();
-
-            //initialize some vertices and add them to the graph
-            ArrayList <Vertex> vertices = new ArrayList<Vertex>();
-
-
         }
     }
