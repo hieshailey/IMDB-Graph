@@ -3,6 +3,9 @@
  */
 
 import java.io.BufferedReader;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  *
@@ -16,7 +19,7 @@ public class DemoGraph {
     public static void main(String[] args) {
 
         //Get the buffered reader for the text file
-        BufferedReader br = FileManager.getInstance().getFile("real.txt");
+        BufferedReader br = FileManager.getInstance().getFile("1995.txt");
 
         Graph graph = new Graph();
 
@@ -25,10 +28,11 @@ public class DemoGraph {
 
             int counter = 0;
             String line = br.readLine();
+            String[] linebits;
 
             while (line != null) {
 
-                String[] linebits = line.split("/");
+                linebits = line.split("/");
 
                 //start at 1 because the first element is the movie title
                 for (int i = 1; i < linebits.length; i++) {
@@ -65,10 +69,53 @@ public class DemoGraph {
                 line = br.readLine();
 
             }
+            System.out.println("FINAL : " + counter);
 
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        //pathing
+        int counter = 0;
+
+        //init flag
+        HashMap<Vertex, Boolean> flag = new HashMap<Vertex, Boolean>();
+        for (Vertex v: graph.getVertices())
+            flag.put(v, false);
+
+        Queue<Vertex> queue = new LinkedList<Vertex>();
+        queue.add(graph.getVertex("Bacon, Kevin")); //start
+        Vertex final_vert = graph.getVertex("Cruise, Tom"); //looking for
+
+        //queue searching
+        outer:
+        while (queue.size() != 0) {
+            Vertex currentVertex = queue.remove();
+            counter ++;
+
+            //add all neighbors to queue
+            for (Edge e: currentVertex.getNeighbors()) {
+                Vertex neighbor = e.getNeighbor(currentVertex);
+
+                //in case final vert
+                if (neighbor == final_vert) {
+                    break outer;
+                }
+
+                //flag true
+                if (!flag.get(neighbor)) {
+
+                    queue.add(neighbor);
+
+                    flag.remove(neighbor);
+                    flag.put(neighbor, true);
+                }
+
+            }
+
+        }
+
+        System.out.println("COUNTER : " + counter);
 
     }
 }
