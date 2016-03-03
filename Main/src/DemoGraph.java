@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Scanner;
 
 /**
  *
@@ -25,6 +26,8 @@ public class DemoGraph {
 
         //populate the graph
         try {
+
+            System.out.println("Populating graph...");
 
             int counter = 0;
             String line = br.readLine();
@@ -63,13 +66,15 @@ public class DemoGraph {
 
                 counter ++;
 
-                if (counter % 1000 == 0)
-                    System.out.println(counter);
+                if (counter % 10000 == 0)
+                    System.out.print("- ");
 
                 line = br.readLine();
 
             }
-            System.out.println("FINAL : " + counter);
+            System.out.println("\nNUM LINES : " + counter + ".");
+
+            System.out.println("Done.\n");
 
         } catch (Exception e){
             e.printStackTrace();
@@ -85,37 +90,51 @@ public class DemoGraph {
 
         Queue<Vertex> queue = new LinkedList<Vertex>();
         queue.add(graph.getVertex("Bacon, Kevin")); //start
-        Vertex final_vert = graph.getVertex("Cruise, Tom"); //looking for
 
-        //queue searching
-        outer:
-        while (queue.size() != 0) {
-            Vertex currentVertex = queue.remove();
-            counter ++;
+        Scanner scanner = new Scanner(System.in);
 
-            //add all neighbors to queue
-            for (Edge e: currentVertex.getNeighbors()) {
-                Vertex neighbor = e.getNeighbor(currentVertex);
+        //noinspection InfiniteLoopStatement
+        while (true) {
 
-                //in case final vert
-                if (neighbor == final_vert) {
-                    break outer;
+            System.out.println("Who do you want to search for?");
+
+            String search = scanner.nextLine();
+            Vertex final_vert = graph.getVertex(search); //looking for
+
+            System.out.println("\nSearching...");
+
+            //queue searching
+            outer:
+            while (queue.size() != 0) {
+                Vertex currentVertex = queue.remove();
+                counter++;
+
+                //add all neighbors to queue
+                for (Edge e : currentVertex.getNeighbors()) {
+                    Vertex neighbor = e.getNeighbor(currentVertex);
+
+                    //in case final vert
+                    if (neighbor == final_vert) {
+                        break outer;
+                    }
+
+                    //flag true
+                    if (!flag.get(neighbor)) {
+
+                        queue.add(neighbor);
+
+                        flag.remove(neighbor);
+                        flag.put(neighbor, true);
+
+                    }
                 }
-
-                //flag true
-                if (!flag.get(neighbor)) {
-
-                    queue.add(neighbor);
-
-                    flag.remove(neighbor);
-                    flag.put(neighbor, true);
-                }
-
             }
 
-        }
+            System.out.println("COUNTER : " + counter);
 
-        System.out.println("COUNTER : " + counter);
+            System.out.println("Done.\n\n");
+
+        }
 
     }
 }
